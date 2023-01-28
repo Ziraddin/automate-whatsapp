@@ -9,7 +9,7 @@ cluster = MongoClient("mongodb+srv://Saddam:Matrixgame213@wpbotdatabase."
                       tls=True, tlsAllowInvalidCertificates=True)
 db = cluster["botDB"]
 users = db["users"]
-orders = db["orders"]
+orders = db["orders"
 
 app = Flask(__name__)
 
