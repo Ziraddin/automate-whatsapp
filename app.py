@@ -18,8 +18,8 @@ def reply():
     number = request.form.get('From')
 
     # changing
-    text = text.lower()
-    number = number.replace("whatsapp:", "")
+    text = str(text).lower()
+    number = number.replace("whatsapp:", "")[:-2]
 
     # reply to messages
     response = MessagingResponse()
