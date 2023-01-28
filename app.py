@@ -4,21 +4,26 @@ from twilio.twiml.messaging_response import MessagingResponse
 from pymongo import MongoClient
 from datetime import datetime
 
-cluster = MongoClient("mongodb+srv://Saddam:Matrixgame213@wpbotdatabase.giznbjw.mongodb.net/?retryWrites=true&w=majority")
+cluster = MongoClient("mongodb+srv://Saddam:Matrixgame213@wpbotdatabase."
+                      "giznbjw.mongodb.net/?retryWrites=true&w=majority",
+                      tls=True, tlsAllowInvalidCertificates=True)
 db = cluster["botDB"]
 users = db["users"]
 orders = db["orders"]
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=['get', 'post'])
 def reply():
+
     # fetching
     text = request.form.get('Body')
     number = request.form.get('From')
 
     # changing
     text = str(text).lower()
+    number = number.replace("whatsapp:", "")[:-2]
 
     # reply to messages
     response = MessagingResponse()
@@ -69,11 +74,12 @@ def reply():
         elif 1 <= option <= 5:
             kurslar = ["Excel", "MOSE", "PowerBI (PL-300)", "SQL (1Z0-071)", "Data Analitika"]
             qiymetler = [175, 169, 449, 400, 849]
-            mellimler = ['Orxan Niftullayev', 'Rəşad Qurbanov', 'Şahmurad Məmmədov', 'Ceyhun Qazıxanov', 'Rəşad Qurbanov\n'
-                                                                                                         'Ceyhun Qazıxanov\n'
-                                                                                                         'Kamal Mustafayev\n'
-                                                                                                         'Tuncay Məcnunlu\n'
-                                                                                                         'Tural Əhmədov']
+            mellimler = ['Orxan Niftullayev', 'Rəşad Qurbanov', 'Şahmurad Məmmədov',
+                         'Ceyhun Qazıxanov', 'Rəşad Qurbanov\n'
+                         'Ceyhun Qazıxanov\n'
+                         'Kamal Mustafayev\n'
+                         'Tuncay Məcnunlu\n'
+                         'Tural Əhmədov']
             vaxt = ['II gün - saat 20:00-22:00\nVI gün - saat 11:00-13:00',
                     'II gün - saat 20:00-22:00\nVI gün - saat 11:00-13:00',
                     'I gün - saat 19:00-21:00 (Power BI tədrisi + Praktika)\n'
@@ -97,5 +103,8 @@ def reply():
     users.update_one({"number": number}, {"$push": {"messages": {"text": text, "date": datetime.now()}}})
     return flask.Response(str(response), mimetype="application/xml")
 
-if __name__ == "__main__":
+
+if __name__ != "__main__":
+    pass
+else:
     app.run()
