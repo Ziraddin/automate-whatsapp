@@ -19,7 +19,6 @@ def reply():
 
     # changing
     text = str(text).lower()
-    number = number.replace("whatsapp:", "")[:-2]
 
     # reply to messages
     response = MessagingResponse()
